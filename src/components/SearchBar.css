@@ -1,0 +1,57 @@
+.input-wrapper{
+    background-color: white;
+    width: 100%;
+    border-radius: 10px;
+    height: 2.5rem;
+    padding: 0 25px;
+    box-shadow: 0px opx 8px #ddd;
+    display: flex;
+    align-items: center;
+}
+
+input{
+    background-color: transparent;
+    border: none;
+    height: 100%;
+    font-size: 1.25rem;
+    width: 100%;
+    margin-left: 5px;
+}
+
+input:focus{
+    outline: none;
+}
+
+#search-icon{
+    color: royalblue;
+}
+
+.circular-progress {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    
+  }
+
+  /* Responsive styles */
+@media screen and (max-width: 768px) {
+    .input-wrapper {
+        height: 100%; /* Reduce padding for smaller screens */
+        width: 100%;
+    }
+    input {
+        width: calc(100% - 50px); /* Adjust input width for smaller screens */
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .input-wrapper {
+        padding: 0 0px; /* Further reduce padding for even smaller screens */
+    }
+    input {
+        width: calc(100% - 40px); /* Adjust input width for even smaller screens */
+    }
+    .select-box {
+        width: 70px; /* Adjust select width for even smaller screens */
+    }
+}
