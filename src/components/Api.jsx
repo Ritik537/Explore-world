@@ -35,7 +35,7 @@ function Api({ inputValue, selectedOption }) {
           // Handle response data
           console.log(data.weather);
           setIsLoading(false);
-          setResponseData(data.response1.data.filter((place)=> place.name && place.num_reviews>0));
+          setResponseData(data.response1.data.filter((place)=> place.name && place.num_reviews>0 && place.rating));
           setshowweather(true)
           const icon =  data.weather.weather[0].icon;
           setWeatherIcon(icon);

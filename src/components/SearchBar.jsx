@@ -57,7 +57,7 @@ function SearchBar({}) {
           type="text"
           value={inputValue}
           onChange={handleChange}
-          placeholder="Search..."
+          placeholder="Search any city...."
         />
 
 

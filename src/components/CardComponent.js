@@ -78,8 +78,17 @@ function CardComponent() {
                             <CardContent style={{ fontFamily: 'Arial, sans-serif', padding: '20px', backgroundColor: '#f5f5f5', borderRadius: '10px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}>
                                 <Typography variant="h5" style={{ marginBottom: '10px', borderBottom: '2px solid #000' }}>{place.name}</Typography>
                                 <Box display="flex" justifyContent="space-between" marginBottom="10px">
-                                    <Typography variant="subtitle1" style={{ fontWeight: 'bold', borderBottom: '1px solid rgba(0, 0, 0, 0.5)' }}>Price:</Typography>
-                                    <Typography variant="subtitle1">{place.price}</Typography>
+                                    {place.price ? (
+                                        <>
+                                            <Typography variant="subtitle1" style={{ fontWeight: 'bold', borderBottom: '1px solid rgba(0, 0, 0, 0.5)' }}>Price:</Typography>
+                                            <Typography variant="subtitle1">{place.price}</Typography>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Typography variant="subtitle1" style={{ fontWeight: 'bold', borderBottom: '1px solid rgba(0, 0, 0, 0.5)' }}>Open:</Typography>
+                                            <Typography variant="subtitle1">{place.is_closed ? 'No' : 'Yes'}</Typography>
+                                        </>
+                                    )}
                                 </Box>
                                 <Box marginBottom="10px" style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.5)' }}>
                                     <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>Ranking:</Typography>
@@ -87,7 +96,7 @@ function CardComponent() {
                                 </Box>
 
                                 <Box display="flex" justifyContent="space-between" marginBottom="10px">
-                                    <Rating value={Number(place.rating)} readOnly/>
+                                    <Rating value={Number(place.rating)} readOnly />
                                     <Typography variant="subtitle1">out of {place.num_reviews} reviews</Typography>
                                 </Box>
                                 {place?.awards?.map((award, index) => (
@@ -101,21 +110,38 @@ function CardComponent() {
                                         <Chip key={index} size="small" label={name} style={{ marginRight: '5px', marginBottom: '5px' }} />
                                     ))}
                                 </Box>
-                                {place?.address && (
+                                {place?.address || (place?.address_obj && !place.address) ? (
                                     <Typography variant="subtitle2" color="textSecondary" style={{ marginBottom: '5px' }}>
-                                        <LocationOnOutlinedIcon style={{ marginRight: '5px' }} /> {place.address}
+                                        <LocationOnOutlinedIcon style={{ marginRight: '5px' }} />
+                                        {place.address || `${place.address_obj.street1}, ${place.address_obj.city}, ${place.address_obj.country}`}
                                     </Typography>
-                                )}
+                                ) : null}
                                 {place?.phone && (
                                     <Typography variant="subtitle2" color="textSecondary" style={{ marginBottom: '5px' }}>
                                         <PhoneIcon style={{ marginRight: '30%' }} /> {place.phone}
                                     </Typography>
                                 )}
                                 <CardActions>
-                                    <Button size="small" style={{ color: '#fff', backgroundColor: '#1a237e' }} onClick={() => window.open(place.web_url, '_blank')}>
+                                    <Button size="small" style={{ color: '#fff', backgroundColor: '#1a237e' }} onClick={() => {
+                                        if (place.web_url) {
+                                            window.open(place.web_url, '_blank');
+                                        } else {
+                                            // Assuming place.name is the name of the place
+                                            const tripAdvisorURL = `https://www.tripadvisor.com/Search?q=${encodeURIComponent(place.name)}`;
+                                            window.open(tripAdvisorURL, '_blank');
+                                        }
+                                    }}>
                                         Trip Advisor
                                     </Button>
-                                    <Button size="small" color="primary" onClick={() => window.open(place.website, '_blank')}>
+                                    <Button size="small" color="primary" onClick={() => {
+                                        if (place.website) {
+                                            window.open(place.website, '_blank');
+                                        } else {
+                                            // Assuming place.name is the name of the place
+                                            const googleSearchURL = `https://www.google.com/search?q=${encodeURIComponent(place.name)}&btnI=1`;
+                                            window.open(googleSearchURL, '_blank');
+                                        }
+                                    }}>
                                         <LanguageIcon />
                                     </Button>
                                     <Button size="small" color="primary" onClick={() => window.open(`https://www.google.com/maps/search/?api=1&query=${place.latitude},${place.longitude}`, '_blank')}>
