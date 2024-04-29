@@ -22,7 +22,7 @@ function Api({ inputValue, selectedOption }) {
     let url = '';
     if (selectedOption !== 'Choose' && inputValue.trim() !== '') {
       const city = encodeURIComponent(inputValue.trim());
-      url = `http://localhost:8080/${selectedOption.toLowerCase()}/${city}`;
+      url = `https://explore-worldserver.onrender.com/${selectedOption.toLowerCase()}/${city}`;
       // Send request to Spring Boot application
       fetch(url)
         .then(response => {
